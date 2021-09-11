@@ -28,7 +28,8 @@ class auth extends conexion{
                                         // si se guardo
                                         $result = $_respustas->response;
                                         $result["result"] = array(
-                                            "token" => $verificar
+                                            "token" => $verificar['token'],
+                                            "idToken" => $verificar['idToken']
                                         );
                                         return $result;
                                 }else{
@@ -70,8 +71,14 @@ class auth extends conexion{
         $estado = "Activo";
         $query = "INSERT INTO usuarios_token (UsuarioId,Token,Estado,Fecha)VALUES('$usuarioid','$token','$estado','$date')";
         $verifica = parent::nonQuery($query);
+        
         if($verifica){
-            return $token;
+            print_r($verifica);
+            $resultado = array(
+                "token" => $token,
+                "idToken" => $usuarioid,
+            );
+            return $resultado;
         }else{
             return 0;
         }
